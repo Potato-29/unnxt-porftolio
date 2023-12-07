@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { sidebarMenus } from "../../helpers/tempData";
 
-export default function App() {
+export default function App({ currentSlide, setCurrentSlide, sliderRef }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const runAnim = (id) => {
@@ -32,8 +32,12 @@ export default function App() {
   };
 
   return (
-    <aside className="h-screen w-1/6 fixed top-0 left-0 border border-2">
-      <ul>
+    <aside className="h-screen w-1/6 fixed top-0 left-0 border-2 ">
+      <ul className="h-screen flex flex-col justify-center px-12 font-Poppins">
+        <div className="my-2 text-blue-900">
+          <p className="text-xl">unnxt's</p>
+          <p className="text-5xl">Portfolio</p>
+        </div>
         {sidebarMenus?.map((item) => (
           <div>
             <p
@@ -53,7 +57,12 @@ export default function App() {
               variants={anim}
             >
               {item?.clientList?.map((item) => (
-                <p className="my-2">{item.clientName}</p>
+                <p
+                  className="my-2"
+                  onClick={() => sliderRef.current.slickGoTo(item.clientId - 1)}
+                >
+                  {item.clientName}
+                </p>
               ))}
             </motion.div>
           </div>

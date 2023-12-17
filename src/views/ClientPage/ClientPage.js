@@ -1,16 +1,13 @@
-import React from "react";
-import { sidebarMenus } from "../../helpers/tempData";
+import React, { useRef } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "../ClientsView/ClientsView.css";
 import { useSelector } from "react-redux";
-import { getDownloadURL, getStorage, ref } from "firebase/storage";
-import { useNavigate } from "react-router-dom";
 
-const ClientsView = ({ currentSlide, setCurrentSlide, sliderRef }) => {
+const ClientPage = () => {
+  const clientSliderRef = useRef();
   const clientList = useSelector((state) => state.clientList.value);
-  const navigate = useNavigate();
+
   const settings = {
     dots: false,
     accessibility: false,
@@ -26,10 +23,10 @@ const ClientsView = ({ currentSlide, setCurrentSlide, sliderRef }) => {
     vertical: true,
     verticalSwiping: true,
 
-    afterChange: (active) => {
-      console.log(active);
-      setCurrentSlide(active);
-    },
+    // afterChange: (active) => {
+    //   console.log(active);
+    //   setCurrentSlide(active);
+    // },
     responsive: [
       {
         breakpoint: 1024,
@@ -59,14 +56,10 @@ const ClientsView = ({ currentSlide, setCurrentSlide, sliderRef }) => {
   };
 
   return (
-    <div className="flex w-full h-full justify-center items-center">
-      <Slider {...settings} ref={sliderRef}>
+    <div className="flex w-full h-full border-2 border-white justify-center items-center">
+      <Slider {...settings} ref={clientSliderRef}>
         {clientList?.map((item, index) => (
-          <div
-            className={``}
-            key={`clientName-${index}`}
-            onClick={() => navigate(`/ClientPage/${item.docId}`)}
-          >
+          <div className={``} key={`clientName-${index}`}>
             <img
               src={item.clientPic}
               className={`w-3/4 h-3/4 rounded-3xl`}
@@ -79,4 +72,4 @@ const ClientsView = ({ currentSlide, setCurrentSlide, sliderRef }) => {
   );
 };
 
-export default ClientsView;
+export default ClientPage;

@@ -9,38 +9,38 @@ export const sidebarMenus = [
   {
     name: "Work",
     id: 1,
-    clientList: [
-      {
-        clientId: 1,
-        clientName: "Orphic",
-        clientPic: orphic,
-      },
-      {
-        clientId: 2,
-        clientName: "Abide",
-        clientPic: abide,
-      },
-      {
-        clientId: 3,
-        clientName: "Sasariyo",
-        clientPic: sasariyo,
-      },
-      {
-        clientId: 4,
-        clientName: "Rasoi",
-        clientPic: rasoi,
-      },
-      {
-        clientId: 5,
-        clientName: "Malhar",
-        clientPic: malhar,
-      },
-      {
-        clientId: 6,
-        clientName: "Naan sense",
-        clientPic: naansense,
-      },
-    ],
+    // clientList: [
+    //   {
+    //     clientId: 1,
+    //     clientName: "Orphic",
+    //     clientPic: orphic,
+    //   },
+    //   {
+    //     clientId: 2,
+    //     clientName: "Abide",
+    //     clientPic: abide,
+    //   },
+    //   {
+    //     clientId: 3,
+    //     clientName: "Sasariyo",
+    //     clientPic: sasariyo,
+    //   },
+    //   {
+    //     clientId: 4,
+    //     clientName: "Rasoi",
+    //     clientPic: rasoi,
+    //   },
+    //   {
+    //     clientId: 5,
+    //     clientName: "Malhar",
+    //     clientPic: malhar,
+    //   },
+    //   {
+    //     clientId: 6,
+    //     clientName: "Naan sense",
+    //     clientPic: naansense,
+    //   },
+    // ],
   },
   {
     name: "About Me",

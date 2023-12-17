@@ -27,5 +27,6 @@
 }
 
 .slick-slide:not(.slick-active) {
+  transition: all 0.9s ease-in-out;
   filter: blur(1.7rem);
 }

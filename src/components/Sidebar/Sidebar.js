@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+// import { sidebarMenus } from "../../helpers/tempData";
+import React from "react";
+import { useSelector } from "react-redux";
 import { sidebarMenus } from "../../helpers/tempData";
 
 export default function App({ currentSlide, setCurrentSlide, sliderRef }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const clientList = useSelector((state) => state.clientList.value);
 
   const runAnim = (id) => {
     if (dropdownOpen === id) {
@@ -32,19 +36,21 @@ export default function App({ currentSlide, setCurrentSlide, sliderRef }) {
   };
 
   return (
-    <aside className="h-screen w-1/6 fixed top-0 left-0 border-2 ">
+    <aside className="h-screen w-1/6 fixed top-0 left-0">
       <ul className="h-screen flex flex-col justify-center px-12 font-Poppins">
         <div className="my-2 text-blue-900">
           <p className="text-xl">unnxt's</p>
           <p className="text-5xl">Portfolio</p>
         </div>
-        {sidebarMenus?.map((item) => (
-          <div>
+        {sidebarMenus?.map((item, index) => (
+          <div key={`menu-${index}`}>
             <p
-              className="cursor-pointer mx-1 my-2 text-3xl font-semibold text-blue-900"
-              style={{
-                boxShadow: dropdownOpen === item.id ? "0px 0px 0px black" : "",
-              }}
+              className={`transition-all duration-300 cursor-pointer mx-1 my-2 text-3xl font-semibold text-blue-900
+              hover:[text-shadow:_2px_3px_25px_rgb(0_0_0_/_50%)] ${
+                dropdownOpen === item.id
+                  ? "[text-shadow:_2px_3px_25px_rgb(0_0_0_/_50%)]"
+                  : ""
+              }`}
               onClick={() => runAnim(item.id)}
             >
               {item.name}
@@ -56,14 +62,19 @@ export default function App({ currentSlide, setCurrentSlide, sliderRef }) {
               animate={dropdownOpen === item.id ? "open" : "closed"}
               variants={anim}
             >
-              {item?.clientList?.map((item) => (
-                <p
-                  className="my-2"
-                  onClick={() => sliderRef.current.slickGoTo(item.clientId - 1)}
-                >
-                  {item.clientName}
-                </p>
-              ))}
+              {clientList.length > 0 &&
+                clientList?.map((item, index) => (
+                  <p
+                    style={{}}
+                    key={`client-${index}`}
+                    className={`my-2 cursor-pointer transition-all duration-700 hover:scale-110 hover:ml-2 ${
+                      currentSlide === index ? "" : ""
+                    }`}
+                    onClick={() => sliderRef.current.slickGoTo(index)}
+                  >
+                    {item.clientName}
+                  </p>
+                ))}
             </motion.div>
           </div>
         ))}

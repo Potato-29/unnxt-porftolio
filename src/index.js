@@ -47,7 +47,11 @@ const router = createBrowserRouter([
     element: (
       <Protected>
         <App>
-          <></>
+          <ClientsView
+            currentSlide={undefined}
+            setCurrentSlide={undefined}
+            sliderRef={undefined}
+          />
         </App>
       </Protected>
     ),
@@ -62,16 +66,16 @@ const router = createBrowserRouter([
       </Protected>
     ),
   },
-  // {
-  //   path: "/dashboard/remove",
-  //   element: (
-  //     <Protected>
-  //       <App>
-  //         <RemoveClientForm />
-  //       </App>
-  //     </Protected>
-  //   ),
-  // },
+  {
+    path: "/dashboard/remove",
+    element: (
+      <Protected>
+        <App>
+          <></>
+        </App>
+      </Protected>
+    ),
+  },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

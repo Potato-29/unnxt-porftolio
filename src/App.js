@@ -10,6 +10,7 @@ import { success } from "./store/slice";
 
 function App({ children }) {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const sliderRef = useRef();
 
@@ -21,23 +22,30 @@ function App({ children }) {
       : false;
 
   const getSidebarMenus = async () => {
+    setIsLoading(true);
     let results;
 
-    const clientListSnap = await getDocs(
-      collection(firestore, "sidebar-menus", `1`, "clientList")
-    );
-    let sortedArray = [];
-    clientListSnap.forEach(async (item) => {
-      let clientData = item.data();
-      let obj = { ...clientData, docId: item.id };
-      // results.push(obj);
-      // results.push(item.data());
-      sortedArray.push(obj);
-    });
+    try {
+      const clientListSnap = await getDocs(
+        collection(firestore, "sidebar-menus", `1`, "clientList")
+      );
+      let sortedArray = [];
+      clientListSnap.forEach(async (item) => {
+        let clientData = item.data();
+        let obj = { ...clientData, docId: item.id };
+        // results.push(obj);
+        // results.push(item.data());
+        sortedArray.push(obj);
+      });
 
-    results = sortedArray.sort((a, b) => a.clientId - b.clientId);
+      results = sortedArray.sort((a, b) => a.clientId - b.clientId);
 
-    dispatch(success(results));
+      dispatch(success(results));
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -60,7 +68,13 @@ function App({ children }) {
           />
         </>
       )}
-      {isUnnat && <AdminSidebar />}
+      {isUnnat && (
+        <AdminSidebar
+          currentSlide={currentSlide}
+          setCurrentSlide={setCurrentSlide}
+          sliderRef={sliderRef}
+        />
+      )}
       <main
         className={`z-10 relative ${
           isLogin ? "h-screen" : "h-screen -ml-[calc(0%-16.66667%)] px-3 py-4"
@@ -70,6 +84,7 @@ function App({ children }) {
           currentSlide: currentSlide,
           setCurrentSlide: setCurrentSlide,
           sliderRef: sliderRef,
+          isLoading,
         })}
       </main>
     </>

@@ -1,12 +1,51 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { doc, getDoc } from "firebase/firestore";
+import { firestore } from "../../config/firebase";
+import { useParams } from "react-router-dom";
+import loader from "../../assets/icons/loader.gif";
+import {
+  clientInfoFailure,
+  clientInfoSuccess,
+} from "../../store/clientInfoSlice/slice";
+import { toastOptions } from "../../helpers/toastOptions";
+import { toast } from "react-toastify";
+import CarouselImage from "../../components/CarouselImage/CarouselImage";
 
 const ClientPage = () => {
   const clientSliderRef = useRef();
-  const clientList = useSelector((state) => state.clientList.value);
+  const clientInfo = useSelector((state) => state.clientInfo.value);
+  const [isLoading, setIsLoading] = useState(true);
+  const { clientData } = clientInfo;
+
+  const dispatch = useDispatch();
+  const { id } = useParams();
+
+  const getClientData = async () => {
+    setIsLoading(false);
+    let results;
+    try {
+      const clientListSnap = await getDoc(
+        doc(firestore, `sidebar-menus/1/clientList/${id}`)
+      );
+
+      results = clientListSnap.data();
+
+      results.clientData = results.clientData.sort(
+        (a, b) => a.fileOrderId - b.fileOrderId
+      );
+
+      dispatch(clientInfoSuccess(results));
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      dispatch(clientInfoFailure(error));
+      toast.error("Failed to retreive data!", toastOptions);
+    }
+  };
 
   const settings = {
     dots: false,
@@ -14,8 +53,9 @@ const ClientPage = () => {
     infinite: true,
     slidesToShow: 1,
     centerMode: true,
-    swipeToSlide: false,
-    swipe: false,
+    swipeToSlide: true,
+    touchMove: true,
+    swipe: true,
     arrows: false,
     centerPadding: "20px",
     speed: 900,
@@ -23,10 +63,6 @@ const ClientPage = () => {
     vertical: true,
     verticalSwiping: true,
 
-    // afterChange: (active) => {
-    //   console.log(active);
-    //   setCurrentSlide(active);
-    // },
     responsive: [
       {
         breakpoint: 1024,
@@ -55,19 +91,25 @@ const ClientPage = () => {
     ],
   };
 
+  useEffect(() => {
+    getClientData();
+  }, [id]);
+
   return (
-    <div className="flex w-full h-full border-2 border-white justify-center items-center">
-      <Slider {...settings} ref={clientSliderRef}>
-        {clientList?.map((item, index) => (
-          <div className={``} key={`clientName-${index}`}>
-            <img
-              src={item.clientPic}
-              className={`w-3/4 h-3/4 rounded-3xl`}
-              alt={`clientImage-${index}`}
+    <div className="flex w-full h-full justify-center items-center">
+      {isLoading ? (
+        <img src={loader} alt="Loader" />
+      ) : (
+        <Slider {...settings} ref={clientSliderRef}>
+          {clientData?.map((item, index) => (
+            <CarouselImage
+              imageSrc={item.fileUrl}
+              index={index}
+              onClick={null}
             />
-          </div>
-        ))}
-      </Slider>
+          ))}
+        </Slider>
+      )}
     </div>
   );
 };

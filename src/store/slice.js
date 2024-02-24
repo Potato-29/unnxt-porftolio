@@ -19,5 +19,4 @@ export const clientList = createSlice({
 
 // Action creators are generated for each case reducer function
 export const { success, failure } = clientList.actions;
-
 export default clientList.reducer;

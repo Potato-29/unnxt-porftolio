@@ -13,7 +13,11 @@ export default function App({ currentSlide, setCurrentSlide, sliderRef }) {
     if (dropdownOpen === id) {
       setDropdownOpen(false);
     } else {
-      setDropdownOpen(id);
+      if (id === 1) {
+        setDropdownOpen(id);
+      } else {
+        setDropdownOpen(false);
+      }
     }
   };
 
@@ -35,6 +39,12 @@ export default function App({ currentSlide, setCurrentSlide, sliderRef }) {
     },
   };
 
+  console.log(
+    "%cSidebar.js line:38 sidebarMenus",
+    "color: white; background-color: #007acc;",
+    sidebarMenus
+  );
+
   return (
     <aside className="h-screen w-1/6 fixed top-0 left-0">
       <ul className="h-screen flex flex-col justify-center px-12 font-Poppins">
@@ -45,12 +55,7 @@ export default function App({ currentSlide, setCurrentSlide, sliderRef }) {
         {sidebarMenus?.map((item, index) => (
           <div key={`menu-${index}`}>
             <p
-              className={`transition-all duration-300 cursor-pointer mx-1 my-2 text-3xl font-semibold text-blue-900
-              hover:[text-shadow:_2px_3px_25px_rgb(0_0_0_/_50%)] ${
-                dropdownOpen === item.id
-                  ? "[text-shadow:_2px_3px_25px_rgb(0_0_0_/_50%)]"
-                  : ""
-              }`}
+              className={`transition-all duration-300 cursor-pointer mx-1 my-2 text-3xl font-semibold text-blue-900`}
               onClick={() => runAnim(item.id)}
             >
               {item.name}
@@ -65,7 +70,6 @@ export default function App({ currentSlide, setCurrentSlide, sliderRef }) {
               {clientList.length > 0 &&
                 clientList?.map((item, index) => (
                   <p
-                    style={{}}
                     key={`client-${index}`}
                     className={`my-2 cursor-pointer transition-all duration-700 hover:scale-110 hover:ml-2 ${
                       currentSlide === index ? "" : ""

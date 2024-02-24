@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { firestore, storage } from "../../config/firebase";
 import { ref, uploadBytes } from "firebase/storage";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, setDoc, updateDoc } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -11,6 +11,7 @@ const AddClientForm = () => {
   const [clientName, setClientName] = useState("");
   const [clientFiles, setClientFiles] = useState([]);
   const [mainImageUrl, setMainImageUrl] = useState("");
+  const [fileInfo, setFileInfo] = useState();
   const clientList = useSelector((state) => state.clientList.value);
   const [assets, setAssets] = useState([
     {
@@ -99,8 +100,7 @@ const AddClientForm = () => {
         clientPic: mainImageUrl,
       })
         .then((result) => {
-          toast.success("Client added", toastOptions);
-          resetStates();
+          updateClientData(result, finalArray);
         })
         .catch((error) => {
           toast.error("Error occurred!", toastOptions);
@@ -110,6 +110,21 @@ const AddClientForm = () => {
       resetStates();
       toast.error("Please fill all the fields", toastOptions);
     }
+  };
+
+  const updateClientData = async (result, finalArray) => {
+    await updateDoc(result, {
+      clientData: finalArray,
+    })
+      .then((updateResult) => {
+        toast.success("Client added", toastOptions);
+        resetStates();
+        window.location.reload();
+      })
+      .catch((updateErr) => {
+        toast.error("Error occurred!", toastOptions);
+        resetStates();
+      });
   };
 
   return (
@@ -129,7 +144,9 @@ const AddClientForm = () => {
           Carousel Image <span className="text-red-500">*</span>
         </label>
         <input
+          disabled={clientName !== "" ? false : true}
           onChange={async (e) => {
+            setFile(e.target);
             let url = await uploadFile({
               file: e.target.files[0],
               fileName: e.target.files[0].name,
@@ -182,9 +199,11 @@ const AddClientForm = () => {
             disabled={clientName !== "" && mainImageUrl !== "" ? false : true}
             onClick={() => AddClient()}
             className="w-full transition-all duration-200 border rounded-full border-green-500
-            my-2 py-1 px-3 bg-green-200 disabled:bg-gray-200"
+            my-2 py-1 px-3 bg-green-200 disabled:bg-gray-200 disabled:border-gray-500"
           >
-            Add Client
+            {clientName !== "" && mainImageUrl !== ""
+              ? "Add Client"
+              : "Fill necessary details!"}
           </button>
         </div>
       </div>

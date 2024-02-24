@@ -7,12 +7,22 @@ import { firestore } from "../../config/firebase";
 import { success } from "../../store/slice";
 import { ToastContainer, toast } from "react-toastify";
 import { toastOptions } from "../../helpers/toastOptions";
+import { sidebarMenus } from "../../helpers/tempData";
 
-const AdminSidebar = () => {
+const AdminSidebar = ({ currentSlide, setCurrentSlide, sliderRef }) => {
   const navigate = useNavigate();
   const [isRemoveOpen, setIsRemoveOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const clientList = useSelector((state) => state.clientList.value);
   const dispatch = useDispatch();
+
+  const runAnim = (id) => {
+    if (dropdownOpen === id) {
+      setDropdownOpen(false);
+    } else {
+      setDropdownOpen(id);
+    }
+  };
 
   const anim = {
     open: {
@@ -75,6 +85,46 @@ const AdminSidebar = () => {
           <p className="text-xl">unnxt's</p>
           <p className="text-5xl">Portfolio</p>
         </div>
+        {/* 
+        {sidebarMenus?.map((item, index) => (
+          <div key={`menu-${index}`}>
+            <p
+              className={`transition-all duration-300 cursor-pointer mx-1 my-2 text-3xl font-semibold text-blue-900
+              hover:[text-shadow:_2px_3px_25px_rgb(0_0_0_/_50%)] ${
+                dropdownOpen === item.id
+                  ? "[text-shadow:_2px_3px_25px_rgb(0_0_0_/_50%)]"
+                  : ""
+              }`}
+              onClick={() => {
+                navigate("/dashboard");
+                runAnim(item.id);
+              }}
+            >
+              {item.name}
+            </p>
+
+            <motion.div
+              className="text-sm px-3"
+              initial="closed"
+              animate={dropdownOpen === item.id ? "open" : "closed"}
+              variants={anim}
+            >
+              {clientList.length > 0 &&
+                clientList?.map((item, index) => (
+                  <p
+                    key={`client-${index}`}
+                    className={`my-2 cursor-pointer transition-all duration-700 hover:scale-110 hover:ml-2 ${
+                      currentSlide === index ? "" : ""
+                    }`}
+                    onClick={() => sliderRef.current.slickGoTo(index)}
+                  >
+                    {item.clientName}
+                  </p>
+                ))}
+            </motion.div>
+          </div>
+        ))} */}
+
         <div>
           <p
             className={`transition-all duration-300 cursor-pointer mx-1 my-2 text-3xl font-semibold text-blue-900
@@ -89,6 +139,7 @@ const AdminSidebar = () => {
             className={`transition-all duration-300 cursor-pointer mx-1 my-2 text-3xl font-semibold text-blue-900
           hover:[text-shadow:_2px_3px_25px_rgb(0_0_0_/_50%)]`}
             onClick={() => {
+              // navigate("/dashboard/remove");
               setIsRemoveOpen(!isRemoveOpen);
               getSidebarMenus();
             }}

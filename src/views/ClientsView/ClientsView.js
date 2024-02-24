@@ -5,12 +5,21 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../ClientsView/ClientsView.css";
 import { useSelector } from "react-redux";
-import { getDownloadURL, getStorage, ref } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
+import CarouselImage from "../../components/CarouselImage/CarouselImage";
+import loader from "../../assets/icons/loader.gif";
 
-const ClientsView = ({ currentSlide, setCurrentSlide, sliderRef }) => {
-  const clientList = useSelector((state) => state.clientList.value);
+const ClientsView = ({
+  currentSlide,
+  setCurrentSlide,
+  isLoading,
+  sliderRef,
+}) => {
   const navigate = useNavigate();
+  const clientList = useSelector((state) => state.clientList.value);
+
+  // settigs from clientPage.jsx
+
   const settings = {
     dots: false,
     accessibility: false,
@@ -25,17 +34,12 @@ const ClientsView = ({ currentSlide, setCurrentSlide, sliderRef }) => {
     slidesToScroll: 1,
     vertical: true,
     verticalSwiping: true,
-
-    afterChange: (active) => {
-      console.log(active);
-      setCurrentSlide(active);
-    },
     responsive: [
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
+          slidesToShow: 1,
+          slidesToScroll: 1,
           infinite: true,
           dots: true,
         },
@@ -43,9 +47,8 @@ const ClientsView = ({ currentSlide, setCurrentSlide, sliderRef }) => {
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2,
+          slidesToShow: 1,
+          slidesToScroll: 1,
         },
       },
       {
@@ -60,21 +63,19 @@ const ClientsView = ({ currentSlide, setCurrentSlide, sliderRef }) => {
 
   return (
     <div className="flex w-full h-full justify-center items-center">
-      <Slider {...settings} ref={sliderRef}>
-        {clientList?.map((item, index) => (
-          <div
-            className={``}
-            key={`clientName-${index}`}
-            onClick={() => navigate(`/ClientPage/${item.docId}`)}
-          >
-            <img
-              src={item.clientPic}
-              className={`w-3/4 h-3/4 rounded-3xl`}
-              alt={`clientImage-${index}`}
+      {isLoading ? (
+        <img src={loader} alt="Loader" />
+      ) : (
+        <Slider {...settings} ref={sliderRef}>
+          {clientList?.map((item, index) => (
+            <CarouselImage
+              index={index}
+              imageSrc={item.clientPic}
+              onClick={() => navigate(`/ClientPage/${item.docId}`)}
             />
-          </div>
-        ))}
-      </Slider>
+          ))}
+        </Slider>
+      )}
     </div>
   );
 };

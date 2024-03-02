@@ -58,6 +58,8 @@ const ClientsView = ({
           slidesToShow: 1,
           slidesToScroll: 1,
           centerMode: true,
+          swipeToSlide: true,
+          swipe: true,
         },
       },
     ],

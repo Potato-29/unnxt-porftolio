@@ -50,4 +50,10 @@
 
 @media only screen and (max-width: 480px) {
   /* Styles for small screens */
+  .slick-slider {
+    padding: 0;
+  }
+  .slick-active {
+    margin: 40% 0;
+  }
 }

@@ -49,6 +49,7 @@ const ClientsView = ({
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
+          centerMode: true,
         },
       },
       {
@@ -56,6 +57,7 @@ const ClientsView = ({
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
+          centerMode: true,
         },
       },
     ],

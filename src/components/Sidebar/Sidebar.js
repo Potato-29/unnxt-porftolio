@@ -39,14 +39,8 @@ export default function App({ currentSlide, setCurrentSlide, sliderRef }) {
     },
   };
 
-  console.log(
-    "%cSidebar.js line:38 sidebarMenus",
-    "color: white; background-color: #007acc;",
-    sidebarMenus
-  );
-
   return (
-    <aside className="h-screen w-1/6 fixed top-0 left-0">
+    <aside className="hidden lg:block h-screen w-1/6 fixed top-0 left-0">
       <ul className="h-screen flex flex-col justify-center px-12 font-Poppins">
         <div className="my-2 text-blue-900">
           <p className="text-xl">unnxt's</p>

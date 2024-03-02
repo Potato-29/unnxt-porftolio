@@ -95,6 +95,26 @@ const ClientPage = () => {
     getClientData();
   }, [id]);
 
+  useEffect(() => {
+    const handleWheel = (event) => {
+      if (clientSliderRef.current) {
+        if (event.deltaY > 0) {
+          // Scrolling down
+          clientSliderRef.current.slickNext();
+        } else {
+          // Scrolling up
+          clientSliderRef.current.slickPrev();
+        }
+      }
+    };
+
+    window.addEventListener("wheel", handleWheel);
+
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+    };
+  }, []);
+
   return (
     <div className="flex w-full h-full justify-center items-center">
       {isLoading ? (

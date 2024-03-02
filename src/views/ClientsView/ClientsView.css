@@ -1,6 +1,6 @@
 .slick-slider {
   position: relative;
-  height: 100vh !important;
+  /* height: 100vh !important; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,4 +30,24 @@
 .slick-slide:not(.slick-active) {
   transition: all 0.6s ease-in-out;
   filter: blur(1.7rem);
+}
+
+@media only screen and (min-width: 1200px) {
+  /* Styles for large screens */
+}
+
+@media only screen and (min-width: 1024px) {
+  /* Styles for desktops */
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+  /* Styles for tablets */
+}
+
+@media only screen and (max-width: 767px) {
+  /* Styles for mobile devices */
+}
+
+@media only screen and (max-width: 480px) {
+  /* Styles for small screens */
 }

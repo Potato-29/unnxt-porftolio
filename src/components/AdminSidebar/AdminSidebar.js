@@ -77,6 +77,12 @@ const AdminSidebar = ({ currentSlide, setCurrentSlide, sliderRef }) => {
       });
   };
 
+  const handleBackToView = () => {
+    window.sessionStorage.removeItem("userInfo");
+    navigate("/");
+    navigate(0);
+  };
+
   return (
     <aside className="h-screen w-1/6 fixed top-0 left-0 border-2 ">
       <ToastContainer />
@@ -164,6 +170,13 @@ const AdminSidebar = ({ currentSlide, setCurrentSlide, sliderRef }) => {
                 </p>
               ))}
           </motion.div>
+        </div>
+        <div
+          className={`transition-all duration-300 cursor-pointer mx-1 my-2 text-3xl font-semibold text-blue-900
+          hover:[text-shadow:_2px_3px_25px_rgb(0_0_0_/_50%)]`}
+          onClick={() => handleBackToView()}
+        >
+          Go Back
         </div>
       </ul>
     </aside>

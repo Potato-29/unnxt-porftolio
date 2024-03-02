@@ -7,7 +7,7 @@ const CarouselImage = ({ imageSrc, index, onClick }) => {
     <div className={``} key={`clientName-${index}`} onClick={onClick}>
       <img
         src={imageSrc}
-        className={`w-[778.5px] h-[500px] rounded-3xl`}
+        className={`min-w-[200px] w-[700px] h-[200px] lg:w-[778.5px] lg:h-[500px] rounded-3xl`}
         alt={`clientImage-${index}`}
       />
     </div>

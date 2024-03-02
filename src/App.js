@@ -77,7 +77,9 @@ function App({ children }) {
       )}
       <main
         className={`z-10 relative ${
-          isLogin ? "h-screen" : "h-screen -ml-[calc(0%-16.66667%)] px-3 py-4"
+          isLogin
+            ? "h-screen"
+            : "h-screen lg:-ml-[calc(0%-16.66667%)] px-3 py-4"
         }`}
       >
         {React.cloneElement(children, {

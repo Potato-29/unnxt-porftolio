@@ -1,17 +1,22 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../config/firebase";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [email, setEmail] = useState("unnxtart@gmail.com");
-  const [password, setPassword] = useState("unnatbkl@123");
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const Login = () => {
-    if (email !== "" && password !== "") {
+    if (
+      email !== "" &&
+      password !== "" &&
+      email !== undefined &&
+      password !== undefined
+    ) {
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           console.log(
@@ -34,6 +39,14 @@ const Login = () => {
       setError("email aur password to daal bc!");
     }
   };
+
+  useEffect(() => {
+    if (email === "" && password === "") {
+      setError("email aur password to daal bc!");
+    } else {
+      setError(false);
+    }
+  }, [email, password]);
 
   return (
     <div className="w-screen h-screen flex justify-center items-center relative z-10">
@@ -61,6 +74,8 @@ const Login = () => {
         >
           Login
         </button>
+
+        {typeof error === "string" && <p className="text-red-500">{error}</p>}
       </div>
     </div>
   );

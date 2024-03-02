@@ -1,6 +1,6 @@
 .slick-slider {
   position: relative;
-  /* height: 100vh !important; */
+  height: 100vh !important;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -9,7 +9,7 @@
 
 .slick-list {
   height: 100vh !important;
-  /* position: relative; */
+
   padding: 5% 0 !important;
 }
 
@@ -54,6 +54,6 @@
     padding: 0;
   }
   .slick-active {
-    margin: 100% 0;
+    margin: 10% 0;
   }
 }

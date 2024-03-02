@@ -1,4 +1,11 @@
-import { collection, getDocs } from "firebase/firestore";
-import { firestore } from "../../config/firebase";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
-const getSidebarMenus = async () => {};
+export const getImageURL = async (filePath) => {
+  const storage = getStorage();
+  try {
+    const url = await getDownloadURL(ref(storage, filePath));
+    return url;
+  } catch (error) {
+    console.log(error);
+  }
+};

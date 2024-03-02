@@ -11,7 +11,7 @@ const CarouselImage = ({ imageSrc, index, onClick }) => {
     >
       <img
         src={imageSrc}
-        className={`min-w-[200px] w-[700px] h-[200px] lg:w-[778.5px] lg:h-[500px] rounded-3xl`}
+        className={`min-w-[200px] w-[700px] h-[300px] lg:w-[778.5px] lg:h-[500px] rounded-3xl`}
         alt={`clientImage-${index}`}
       />
     </div>

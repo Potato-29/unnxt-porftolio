@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CarouselImage from "../../components/CarouselImage/CarouselImage";
 import loader from "../../assets/icons/loader.gif";
+import { getImageURL } from "../../helpers/firestoreActions/firestoreActions";
 
 const ClientsView = ({
   currentSlide,
@@ -64,7 +65,6 @@ const ClientsView = ({
       },
     ],
   };
-
   return (
     <div className="flex w-full h-full justify-center items-center">
       {isLoading ? (

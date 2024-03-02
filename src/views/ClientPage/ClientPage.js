@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
+import { ref, uploadBytes, getDownloadURL, getStorage } from "firebase/storage";
 import "slick-carousel/slick/slick-theme.css";
 import { useDispatch, useSelector } from "react-redux";
 import { doc, getDoc } from "firebase/firestore";
-import { firestore } from "../../config/firebase";
+import { firestore, storage } from "../../config/firebase";
 import { useParams } from "react-router-dom";
 import loader from "../../assets/icons/loader.gif";
 import {
@@ -14,6 +15,7 @@ import {
 import { toastOptions } from "../../helpers/toastOptions";
 import { toast } from "react-toastify";
 import CarouselImage from "../../components/CarouselImage/CarouselImage";
+import { getImageURL } from "../../helpers/firestoreActions/firestoreActions";
 
 const ClientPage = () => {
   const clientSliderRef = useRef();
@@ -37,6 +39,12 @@ const ClientPage = () => {
       results.clientData = results.clientData.sort(
         (a, b) => a.fileOrderId - b.fileOrderId
       );
+
+      for (let i = 0; i < results.clientData.length; i++) {
+        results.clientData[i].fileUrl = await getImageURL(
+          "/" + results.clientData[i].fileUrl
+        );
+      }
 
       dispatch(clientInfoSuccess(results));
       setIsLoading(false);

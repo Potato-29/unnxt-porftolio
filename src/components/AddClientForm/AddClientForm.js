@@ -58,7 +58,8 @@ const AddClientForm = () => {
       file: file,
       fileName: fileName,
       filePath: filePath,
-      fileUrl: fileUrl,
+      // fileUrl: fileUrl,
+      fileUrl: filePath, // this is same because, we need to get download url everytime so that token expiry does not become an issue
       fileOrderId: event.id,
     };
 
@@ -75,18 +76,18 @@ const AddClientForm = () => {
 
     let imageUrl = await uploadBytes(storageRef, file).then((snapshot) => {
       //add a toastify here
-      fileUrl = fileUrl?.replace("[fileName]", encodeURIComponent(filePath));
+      fileUrl = filePath; //same thing as above comment
       return fileUrl;
     });
 
     return imageUrl;
   };
-
   const AddClient = async () => {
     let finalArray = [];
 
     if (clientName !== "" && mainImageUrl !== "") {
       clientFiles.map((file) => {
+        console.log(file);
         uploadFile(file);
         finalArray.push({
           fileUrl: file.fileUrl,
@@ -94,6 +95,7 @@ const AddClientForm = () => {
         });
       });
 
+      console.log(finalArray);
       await addDoc(collection(firestore, "sidebar-menus", `1`, "clientList"), {
         clientName: clientName,
         clientId: clientList.length + 1,
@@ -119,7 +121,7 @@ const AddClientForm = () => {
       .then((updateResult) => {
         toast.success("Client added", toastOptions);
         resetStates();
-        window.location.reload();
+        // window.location.reload();
       })
       .catch((updateErr) => {
         toast.error("Error occurred!", toastOptions);

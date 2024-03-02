@@ -7,9 +7,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { collection, getDocs, query } from "firebase/firestore";
 import { firestore } from "./config/firebase";
 import { success } from "./store/slice";
+import MobileNavbar from "./components/MobileNavbar/MobileNavbar";
+import { getImageURL } from "./helpers/firestoreActions/firestoreActions";
 
 function App({ children }) {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const sliderRef = useRef();
@@ -40,6 +43,12 @@ function App({ children }) {
 
       results = sortedArray.sort((a, b) => a.clientId - b.clientId);
 
+      if (results) {
+        for (let i = 0; i < results.length; i++) {
+          results[i].clientPic = await getImageURL(results[i]?.clientPic);
+        }
+      }
+
       dispatch(success(results));
       setIsLoading(false);
     } catch (error) {
@@ -52,20 +61,43 @@ function App({ children }) {
     getSidebarMenus();
   }, []);
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+    const handleResize = (e) => {
+      setIsMobile(e.matches);
+    };
+
+    // Initial check
+    handleResize(mediaQuery);
+
+    // Add event listener
+    mediaQuery.addEventListener("change", handleResize);
+
+    // Cleanup function
+    return () => {
+      // Remove event listener on component unmount
+      mediaQuery.removeEventListener("change", handleResize);
+    };
+  }, []);
+
   return (
-    <>
-      <img
+    <div className=" bg-custom-image bg-center bg-cover ">
+      {/* <img
         src={bgImage}
         className="bg-image absolute w-screen h-screen z-0"
         alt=""
-      />
+      /> */}
       {!isLogin && !isUnnat && (
         <>
-          <Sidebar
-            currentSlide={currentSlide}
-            setCurrentSlide={setCurrentSlide}
-            sliderRef={sliderRef}
-          />
+          {isMobile ? (
+            <MobileNavbar />
+          ) : (
+            <Sidebar
+              currentSlide={currentSlide}
+              setCurrentSlide={setCurrentSlide}
+              sliderRef={sliderRef}
+            />
+          )}
         </>
       )}
       {isUnnat && (
@@ -89,7 +121,7 @@ function App({ children }) {
           isLoading,
         })}
       </main>
-    </>
+    </div>
   );
 }
 

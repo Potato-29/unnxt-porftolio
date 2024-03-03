@@ -7,9 +7,8 @@ const MobileNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const clientList = useSelector((state) => state.clientList.value);
 
-  const openSidebar = () => {};
   return (
-    <div className="sticky z-[999] font-Poppins flex justify-between items-center">
+    <div className="absolute w-full z-[999] top-0 bg-[#e5e7eb] font-Poppins flex justify-between items-center">
       <div className="my-2 text-blue-900 px-2">
         <p className="text-xl">unnxt</p>
       </div>

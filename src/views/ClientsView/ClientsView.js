@@ -49,6 +49,9 @@ const ClientsView = ({
           slidesToShow: 1,
           slidesToScroll: 1,
           centerMode: true,
+          centerPadding: `40%`,
+          swipeToSlide: true,
+          swipe: true,
         },
       },
       {
@@ -57,7 +60,7 @@ const ClientsView = ({
           slidesToShow: 1,
           slidesToScroll: 1,
           centerMode: true,
-          centerPadding: `70%`,
+          centerPadding: `50%`,
           swipeToSlide: true,
           swipe: true,
         },

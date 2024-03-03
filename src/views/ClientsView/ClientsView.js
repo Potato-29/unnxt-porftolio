@@ -1,5 +1,4 @@
 import React from "react";
-import { sidebarMenus } from "../../helpers/tempData";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -8,7 +7,6 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CarouselImage from "../../components/CarouselImage/CarouselImage";
 import loader from "../../assets/icons/loader.gif";
-import { getImageURL } from "../../helpers/firestoreActions/firestoreActions";
 
 const ClientsView = ({
   currentSlide,
@@ -59,6 +57,7 @@ const ClientsView = ({
           slidesToShow: 1,
           slidesToScroll: 1,
           centerMode: true,
+          centerPadding: `70%`,
           swipeToSlide: true,
           swipe: true,
         },

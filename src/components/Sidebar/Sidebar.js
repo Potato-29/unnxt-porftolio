@@ -4,9 +4,12 @@ import { motion } from "framer-motion";
 import React from "react";
 import { useSelector } from "react-redux";
 import { sidebarMenus } from "../../helpers/tempData";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function App({ currentSlide, setCurrentSlide, sliderRef }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
   const clientList = useSelector((state) => state.clientList.value);
 
   const runAnim = (id) => {
@@ -39,6 +42,14 @@ export default function App({ currentSlide, setCurrentSlide, sliderRef }) {
     },
   };
 
+  const handleClientClick = (index, item) => {
+    if (location.pathname.includes("ClientPage")) {
+      navigate(`/ClientPage/${item.docId}`);
+    } else {
+      sliderRef.current.slickGoTo(index);
+    }
+  };
+
   return (
     <aside className="hidden lg:block h-screen w-1/6 fixed top-0 left-0">
       <ul className="h-screen flex flex-col justify-center px-12 font-Poppins">
@@ -68,7 +79,7 @@ export default function App({ currentSlide, setCurrentSlide, sliderRef }) {
                     className={`my-2 cursor-pointer transition-all duration-700 hover:scale-110 hover:ml-2 ${
                       currentSlide === index ? "" : ""
                     }`}
-                    onClick={() => sliderRef.current.slickGoTo(index)}
+                    onClick={() => handleClientClick(index, item)}
                   >
                     {item.clientName}
                   </p>

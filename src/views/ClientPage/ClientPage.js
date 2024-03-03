@@ -27,7 +27,7 @@ const ClientPage = () => {
   const { id } = useParams();
 
   const getClientData = async () => {
-    setIsLoading(false);
+    setIsLoading(true);
     let results;
     try {
       const clientListSnap = await getDoc(

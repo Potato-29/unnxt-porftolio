@@ -90,7 +90,11 @@ function App({ children }) {
       {!isLogin && !isUnnat && (
         <>
           {isMobile ? (
-            <MobileNavbar />
+            <MobileNavbar
+              currentSlide={currentSlide}
+              setCurrentSlide={setCurrentSlide}
+              sliderRef={sliderRef}
+            />
           ) : (
             <Sidebar
               currentSlide={currentSlide}

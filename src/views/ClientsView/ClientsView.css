@@ -1,4 +1,4 @@
-.slick-slider {
+/* .slick-slider {
   position: relative;
   height: 100vh !important;
   display: flex;
@@ -6,11 +6,11 @@
   align-items: center;
   padding: 0 20px;
 }
+*/
 
-/* .slick-list {
+.slick-list {
   height: 100vh !important;
-  padding: 5% 0 !important;
-} */
+}
 
 .slick-active {
   margin: 50px 0;
@@ -33,10 +33,16 @@
 
 @media only screen and (min-width: 1200px) {
   /* Styles for large screens */
+  .slick-list {
+    padding: 5% 0 !important;
+  }
 }
 
 @media only screen and (min-width: 1024px) {
   /* Styles for desktops */
+  .slick-list {
+    padding: 5% 0;
+  }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1023px) {
@@ -56,8 +62,10 @@
     margin: 10% 0;
   }
 
-  .slick-slider,
-  .slick-list {
+  .slick-slider {
     height: 100vh !important;
+  }
+  .slick-list {
+    padding: 0;
   }
 }

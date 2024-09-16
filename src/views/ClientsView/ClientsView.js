@@ -7,6 +7,9 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CarouselImage from "../../components/CarouselImage/CarouselImage";
 import loader from "../../assets/icons/loader.gif";
+import useEmblaCarousel from "embla-carousel-react";
+import ClassNames from "embla-carousel-class-names";
+import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 
 const ClientsView = ({
   currentSlide,
@@ -16,6 +19,10 @@ const ClientsView = ({
 }) => {
   const navigate = useNavigate();
   const clientList = useSelector((state) => state.clientList.value);
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { axis: "y", arrows: false, forceWheelAxis: "y" },
+    [WheelGesturesPlugin()]
+  );
 
   // settigs from clientPage.jsx
 
@@ -72,15 +79,26 @@ const ClientsView = ({
       {isLoading ? (
         <img src={loader} alt="Loader" />
       ) : (
-        <Slider {...settings} ref={sliderRef}>
-          {clientList?.map((item, index) => (
-            <CarouselImage
-              index={index}
-              imageSrc={item.clientPic}
-              onClick={() => navigate(`/ClientPage/${item.docId}`)}
-            />
-          ))}
-        </Slider>
+        // <Slider {...settings} ref={sliderRef}>
+        //   {clientList?.map((item, index) => (
+        //     <CarouselImage
+        //       index={index}
+        //       imageSrc={item.clientPic}
+        //       onClick={() => navigate(`/ClientPage/${item.docId}`)}
+        //     />
+        //   ))}
+        // </Slider>
+        <div className="embla__viewport" ref={emblaRef}>
+          <div className="embla__container">
+            {clientList?.map((item, index) => (
+              <CarouselImage
+                index={index}
+                imageSrc={item.clientPic}
+                onClick={() => navigate(`/ClientPage/${item.docId}`)}
+              />
+            ))}
+          </div>
+        </div>
       )}
     </div>
   );

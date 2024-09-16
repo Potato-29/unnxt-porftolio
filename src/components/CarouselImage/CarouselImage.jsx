@@ -5,7 +5,7 @@ const CarouselImage = ({ imageSrc, index, onClick }) => {
 
   return (
     <div
-      className={`px-2 md:px-0`}
+      className={`px-2 md:px-0 my-2 embla__slide embla__class-names`}
       key={`clientName-${index}`}
       onClick={onClick}
     >

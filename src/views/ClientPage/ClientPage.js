@@ -16,12 +16,19 @@ import { toast } from "react-toastify";
 import CarouselImage from "../../components/CarouselImage/CarouselImage";
 import { getImageURL } from "../../helpers/firestoreActions/firestoreActions";
 import "../ClientPage/ClientPage.css";
+import useEmblaCarousel from "embla-carousel-react";
+import ClassNames from "embla-carousel-class-names";
+import { WheelGesturesPlugin } from "embla-carousel-wheel-gestures";
 
 const ClientPage = () => {
   const clientSliderRef = useRef();
   const clientInfo = useSelector((state) => state.clientInfo.value);
   const [isLoading, setIsLoading] = useState(true);
   const { clientData } = clientInfo;
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { axis: "y", forceWheelAxis: "y", align: "center" },
+    [WheelGesturesPlugin(), ClassNames()]
+  );
 
   const dispatch = useDispatch();
   const { id } = useParams();
@@ -108,40 +115,53 @@ const ClientPage = () => {
     getClientData();
   }, [id]);
 
-  useEffect(() => {
-    const handleWheel = (event) => {
-      if (clientSliderRef.current) {
-        if (event.deltaY > 0) {
-          // Scrolling down
-          clientSliderRef.current.slickNext();
-        } else {
-          // Scrolling up
-          clientSliderRef.current.slickPrev();
-        }
-      }
-    };
+  // useEffect(() => {
+  //   const handleWheel = (event) => {
+  //     if (clientSliderRef.current) {
+  //       if (event.deltaY > 0) {
+  //         // Scrolling down
+  //         clientSliderRef.current.slickNext();
+  //       } else {
+  //         // Scrolling up
+  //         clientSliderRef.current.slickPrev();
+  //       }
+  //     }
+  //   };
 
-    window.addEventListener("wheel", handleWheel);
+  //   window.addEventListener("wheel", handleWheel);
 
-    return () => {
-      window.removeEventListener("wheel", handleWheel);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("wheel", handleWheel);
+  //   };
+  // }, []);
 
   return (
     <div className="flex w-full h-full justify-center items-center">
       {isLoading ? (
         <img src={loader} alt="Loader" />
       ) : (
-        <Slider {...settings} ref={clientSliderRef}>
-          {clientData?.map((item, index) => (
-            <CarouselImage
-              imageSrc={item.fileUrl}
-              index={index}
-              onClick={null}
-            />
-          ))}
-        </Slider>
+        // <Slider {...settings} ref={clientSliderRef}>
+        //   {clientData?.map((item, index) => (
+        //     <CarouselImage
+        //       imageSrc={item.fileUrl}
+        //       index={index}
+        //       onClick={null}
+        //     />
+        //   ))}
+        // </Slider>
+        <div className="embla">
+          <div className="embla__viewport" ref={emblaRef}>
+            <div className="embla__container">
+              {clientData?.map((item, index) => (
+                <CarouselImage
+                  imageSrc={item.fileUrl}
+                  index={index}
+                  //       onClick={null}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

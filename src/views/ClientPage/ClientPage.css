@@ -31,6 +31,33 @@
   filter: blur(1.7rem);
 }
 
+.embla {
+  --slide-height: 19rem;
+  --slide-spacing: 1rem;
+  --slide-size: 70%;
+  height: 100vh;
+}
+
+.embla__viewport {
+  height: 100vh;
+  overflow: hidden;
+}
+.embla__container {
+  height: 100vh;
+  display: flex;
+  touch-action: pan-x pinch-zoom;
+  margin-top: 30%;
+  height: calc(var(--slide-spacing) + var(--slide-height));
+  flex-direction: column;
+}
+.embla__slide {
+  padding: 30px 0;
+}
+
+.embla__slide:not(.is-snapped) {
+  filter: blur(10px);
+}
+
 @media only screen and (min-width: 1200px) {
   /* Styles for large screens */
   .slick-list {
